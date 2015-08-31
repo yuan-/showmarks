@@ -393,9 +393,12 @@ fun! s:ShowMarks()
 				endif
 				let mark_at{ln} = nm
 				if !exists('b:placed_'.nm) || b:placed_{nm} != ln
-					exe 'sign unplace '.id.' buffer='.winbufnr(0)
-					exe 'sign place '.id.' name=ShowMark'.nm.' line='.ln.' buffer='.winbufnr(0)
-					let b:placed_{nm} = ln
+					try
+						exe 'sign unplace '.id.' buffer='.winbufnr(0)
+						exe 'sign place '.id.' name=ShowMark'.nm.' line='.ln.' buffer='.winbufnr(0)
+						let b:placed_{nm} = ln
+					catch /.*/
+					endtry 
 				endif
 			endif
 		endif
